@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="core" />
         <module name="car-service" />
         <module name="config" />
         <module name="discovery" />
@@ -14,13 +15,6 @@
         <module name="reservation-service" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="car-service" target="11" />
-      <module name="config" target="11" />
-      <module name="discovery" target="11" />
-      <module name="gateway" target="11" />
-      <module name="reservation-service" target="11" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
