@@ -1,32 +1,36 @@
 package com.tpe.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+
 import com.tpe.CarDTO;
 import com.tpe.controller.request.CarRequest;
 import com.tpe.domain.Car;
 import com.tpe.exception.ResourceNotFoundException;
 import com.tpe.repository.CarRepository;
-import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
 public class CarService {
 
     private ModelMapper modelMapper;
+
     private CarRepository carRepository;
 
 
     public void saveCar(CarRequest carRequest) {
-        Car car = modelMapper.map(carRequest, Car.class);
+        Car car= modelMapper.map(carRequest, Car.class);
         carRepository.save(car);
     }
 
+
     public List<CarDTO> getAllCars(){
-        List<Car> carList= (List<Car>) carRepository.findAll();
+        List<Car> carList= carRepository.findAll();
         List<CarDTO> carDTOList= carList.stream().map(this::mapCarToCarDTO).collect(Collectors.toList());
         return carDTOList;
     }
@@ -37,9 +41,11 @@ public class CarService {
     }
 
     public CarDTO getById(Long id) {
-        Car car = carRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Car Not Found with this id:"+id));
-        CarDTO carDTO = mapCarToCarDTO(car);
+        Car car=carRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Car not found with id:"+id));
+        CarDTO carDTO=mapCarToCarDTO(car);
         return carDTO;
     }
+
+
 
 }

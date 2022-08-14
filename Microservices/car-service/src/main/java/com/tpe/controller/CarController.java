@@ -1,17 +1,23 @@
 package com.tpe.controller;
 
-import com.tpe.CarDTO;
-import com.tpe.controller.request.CarRequest;
-import com.tpe.service.CarService;
-import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.tpe.CarDTO;
+import com.tpe.controller.request.CarRequest;
+import com.tpe.service.CarService;
+
+import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/car")
@@ -20,39 +26,38 @@ public class CarController {
 
     private CarService carService;
 
-    // http://localhost:8085/car/
-    /*
-    {
-    "brand": "audi",
-    "age": 7,
+	/*
+	 * {
+    "brand":"Cupra",
+    "model":"Formentor",
     "doors":4,
-    "model": "a7",
-    "pricePerHour":10.3
-}
-     */
-    @PostMapping
-    public ResponseEntity<Map<String,String>> saveCar(@RequestBody CarRequest carRequest) {
-        carService.saveCar(carRequest);
-        Map<String,String> map = new HashMap<>();
-        map.put("message","Car Successfully saved");
-        map.put("success","ture");
+    "pricePerHour":1000,
+    "age":1
+     }
+	 http://localhost:8085/car
+	 * */
 
+    @PostMapping
+    public ResponseEntity<Map<String, String>> saveCar(@RequestBody CarRequest carRequest) {
+        carService.saveCar(carRequest);
+
+        Map<String, String> map = new HashMap<>();
+        map.put("message", "Car Successfully saved");
+        map.put("success", "true");
         return new ResponseEntity<>(map, HttpStatus.CREATED);
     }
 
-    // http://localhost:8085/car
-
     @GetMapping
-    public ResponseEntity<List<CarDTO>> getAllCars() {
+    public ResponseEntity<List<CarDTO>> getAllCars(){
         List<CarDTO> allCars = carService.getAllCars();
         return ResponseEntity.ok(allCars);
     }
 
-    @GetMapping("/id")
-    public ResponseEntity<CarDTO> getCar(@PathVariable Long id) {
-        CarDTO carDTO = carService.getById(id);
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CarDTO> getCar(@PathVariable Long id){
+        CarDTO carDTO= carService.getById(id);
         return ResponseEntity.ok(carDTO);
     }
-
 
 }
